@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="lib/jquery.js"></script>
+    <script src="lib/js.cookie.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <script>
+        function checkLogInStatus() {
+            var userId = Cookies.get('userId');
+            if (!userId) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function logIn() {
+            var userInput = document.getElementById("userInputForm");
+            var userId = userInput.elements[0].value;
+            var password = userInput.elements[1].value
+            var url = "api/verify/?" + "userid=" + userId + "&password=" + password;
+
+            $.get(url, function (data) {
+                if (data === true) {
+                    Cookies.set('userId', userId);
+                    window.location.href = "/posts";
+                } else {
+                    alert("log in failed.")
+                }
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <h1>Safe Forum</h1>
+    <h2>Log In</h2>
+    <script>
+        if (checkLogInStatus()) {
+            window.location.replace("/posts");
+        }
+    </script>
+    <form id="userInputForm">
+        <label for="">user id: </label>
+        <input type="text" name="userid" placeholder="userid"><br><br>
+        <label for="">password: </label>
+        <input type="text" name="password" placeholder="password"><br><br>
+        <input type="button" name="Log In" value="Log In" onclick="logIn()">
+    </form>
+
+</body>
+
+</html>

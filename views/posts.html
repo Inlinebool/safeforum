@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="lib/jquery.js"></script>
+    <script src="lib/jquery.loadTemplate.js"></script>
+    <script src="lib/js.cookie.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <script type="text/html" id="postTemplate">
+        <div class="post-container">
+            <hr>
+            <div data-content="author"></div>
+            <div data-content="date"></div>
+            <p data-content="content"></p>
+            <hr>
+        </div>
+    </script>
+    <script>
+        function checkLogInStatus() {
+            var userId = Cookies.get('userId');
+            if (!userId) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        $(function listPosts() {
+            $.get("/api/getposts", function(data) {
+                if (data) {
+                    $(".script-template-container").loadTemplate("#postTemplate", data);
+                }
+            });
+
+        });
+
+        function post() {
+            let postInput = document.getElementById("postInput").value;
+            let author = Cookies.get("userId");
+            let date = new Date();
+            $.post("/api/post", {"author": author, "date": date, "content": postInput, isPost: true}, function() {
+                location.reload();
+            })
+        }
+    </script>
+</head>
+
+<body>
+    <h1>Safe Forum</h1>
+    <h2>Posts</h2>
+    <script>
+        if (!checkLogInStatus()) {
+            alert("Please log in first.");
+            window.location.replace("/posts");
+        }
+    </script>
+    <div class="script-template-container"></div>
+    <div>
+        <textarea rows="10" cols="50" id="postInput"></textarea><br>
+    </div>
+    <button type="button" onclick="post()">POST</button>
+</body>
+
+</html>
