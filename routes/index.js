@@ -10,6 +10,10 @@ router.get('/login', function (req, res, next) {
     res.render('login.html');
 });
 
+router.get('/register', function (req, res, next) {
+    res.render('register.html');
+});
+
 router.get('/posts', function (req, res, next) {
     res.render('posts.html');
 });

@@ -35,12 +35,24 @@ router.post('/post', function (req, res, next) {
 
 //Verify a user
 router.get('/verify', function (req, res, next) {
-    console.log(req.query);
-    let verified = db.users.find(
-        {userid: req.query.userid, password: req.query.password},
+    db.users.find(
+        {userId: req.query.userId, password: req.query.password},
+        function (err, result) {
+            if (err || !result.length) {
+                res.send(false);
+            } else {
+                res.send(true);
+            }
+        })
+});
+
+//Add a user
+router.post('/addUser', function (req, res, next) {
+    db.users.save(
+        req.body,
         function (err, result) {
             console.log(result);
-            if (err || !result.length) {
+            if (err || !result) {
                 res.send(false);
             } else {
                 res.send(true);

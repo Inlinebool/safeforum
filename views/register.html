@@ -6,54 +6,37 @@
     <script src="lib/js.cookie.js"></script>
     <link rel="stylesheet" href="css/style.css">
     <script>
-        function checkLogInStatus() {
-            var userId = Cookies.get('userId');
-            if (!userId) {
-                return false;
-            } else {
-                return true;
-            }
-        }
-
-        function logIn() {
+        function register() {
             var userInput = document.getElementById("userInputForm");
             var userId = userInput.elements[0].value;
             var password = userInput.elements[1].value
-            var url = "api/verify/?" + "userId=" + userId + "&password=" + password;
+            var userInfo = {
+                "userId": userId,
+                "password": password
+            }
 
-            $.get(url, function (data) {
+            $.post("/api/addUser", userInfo, function (data) {
                 if (data === true) {
                     Cookies.set('userId', userId);
                     window.location.href = "/posts";
                 } else {
-                    alert("log in failed.")
+                    alert("Registration failed.");
                 }
             });
-        }
-
-        function register() {
-            location.href = "/register";
         }
     </script>
 </head>
 
 <body>
     <h1>Safe Forum</h1>
-    <h2>Log In</h2>
-    <script>
-        if (checkLogInStatus()) {
-            window.location.replace("/posts");
-        }
-    </script>
+    <h2>Register</h2>
     <form id="userInputForm">
         <label for="">user id: </label>
         <input type="text" name="userid" placeholder="userid"><br><br>
         <label for="">password: </label>
         <input type="text" name="password" placeholder="password"><br><br>
     </form>
-    <button type="button" name="Log In" onclick="logIn()">LOG IN</button>
-    <button type="button" name="Resigter" onclick="register()">REGISTER</button>
-
+    <button type="button" name="Register" onclick="register()">REGISTER AND LOG IN</button>
 </body>
 
 </html>
