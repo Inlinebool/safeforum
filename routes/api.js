@@ -1,11 +1,12 @@
 var express = require('express');
 var router = express.Router();
 var mongojs = require('mongojs');
-var db = mongojs('mongodb://localhost:27017/safeforum');
+var db = mongojs('safeforum');
 
 // GET All Posts
 router.get('/getposts', function (req, res, next) {
-    db.posts.find(function (err, posts) {
+    var posts = db.collection('posts');
+    posts.find(function (err, posts) {
         if (err) {
             res.send(err);
         } else {
@@ -23,7 +24,8 @@ router.post('/post', function (req, res, next) {
             "error": "Invalid Data"
         });
     } else {
-        db.posts.save(post, function (err, result) {
+        var posts = db.collection('posts');
+        posts.save(post, function (err, result) {
             if (err) {
                 res.send(err);
             } else {
@@ -35,7 +37,8 @@ router.post('/post', function (req, res, next) {
 
 //Verify a user
 router.get('/verify', function (req, res, next) {
-    db.users.find(
+    var users = db.collection('users');
+    users.find(
         {userId: req.query.userId, password: req.query.password},
         function (err, result) {
             if (err || !result.length) {
@@ -48,7 +51,8 @@ router.get('/verify', function (req, res, next) {
 
 //Add a user
 router.post('/addUser', function (req, res, next) {
-    db.users.save(
+    var users = db.collection('users');
+    users.save(
         req.body,
         function (err, result) {
             console.log(result);

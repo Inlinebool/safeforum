@@ -30,9 +30,9 @@ app.use(function (req, res, next) {
     next(err);
 });
 
-var server = app.listen(3000, function () {
-    var host = 'localhost';
-    var port = server.address().port;
+var server = app.listen(process.env.PORT, function () {
+    var host = process.env.IP;
+    var port = process.env.PORT;
     console.log('App listening at http://%s:%s', host, port);
 });
 
