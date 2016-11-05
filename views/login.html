@@ -24,6 +24,7 @@
             $.get(url, function (data) {
                 if (data === true) {
                     Cookies.set('userId', userId);
+                    Cookies.set('password', password);
                     window.location.href = "/posts";
                 } else {
                     alert("log in failed.")

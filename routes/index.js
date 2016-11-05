@@ -17,5 +17,11 @@ router.get('/register', function (req, res, next) {
 router.get('/posts', function (req, res, next) {
     res.render('posts.html');
 });
+router.get('/post1', function (req, res, next) {
+    res.render('post1.html');
+});
+router.get('/post2', function (req, res, next) {
+    res.render('post2.html');
+});
 
 module.exports = router;
