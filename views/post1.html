@@ -25,25 +25,22 @@
             }
         }
 
-        function filter (str) {
-            var s = "";   
-            if (str.length == 0) return "";   
-            s = str.replace(/&/g, "&gt;");   
-            s = s.replace(/</g, "&lt;");   
-            s = s.replace(/>/g, "&gt;");   
-            s = s.replace(/ /g, "&nbsp;");   
-            s = s.replace(/\'/g, "&#39;");   
-            s = s.replace(/\"/g, "&quot;");   
-            s = s.replace(/\n/g, "<br>");   
-            return s;  
+function escape(input) {
+    // tags stripping mechanism from ExtJS library
+    // Ext.util.Format.stripTags
+    // return input
+    var stripTagsRE = /<\/?[^>]+>/gi;
+    input = input.replace(stripTagsRE, '');
 
-        }
+    return '<article>' + input + '</article>';
+}
 
         $(function listPosts() {
             $.get("/api/getposts?fuckIE=" + Math.random(), function(data) {
                 if (data) {
+                    console.log(data)
                     for (var i = data.length - 1; i >= 0; i--) {
-                        data[i].content = filter(data[i].content)
+                        data[i].content = escape(data[i].content)
                     };
                     $(".script-template-container").loadTemplate("#postTemplate", data);
                 }
@@ -63,7 +60,7 @@
 </head>
 
 <body>
-    <h1>Safe Forum</h1>
+    <h1>UNSafe Forum</h1>
     <h2>Posts</h2>
     <script>
         if (!checkLogInStatus()) {

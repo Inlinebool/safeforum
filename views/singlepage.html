@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="single.js"></script>
+
+    <script>
+        function filter (str) {
+            var s = "";   
+            if (str.length == 0) return "";   
+            s = str.replace(/&/g, "&gt;");   
+            s = s.replace(/</g, "&lt;");   
+            s = s.replace(/>/g, "&gt;");   
+            s = s.replace(/ /g, "&nbsp;");   
+            s = s.replace(/\'/g, "&#39;");   
+            s = s.replace(/\"/g, "&quot;");   
+            s = s.replace(/\n/g, "<br>");   
+            return s;  
+        }
+        function escape(input) {
+            // filter potential comment end delimiters
+            input = input.replace(/->/g, '_');
+
+            // comment the input to avoid script execution
+            return '<!-- ' + input + ' -->';
+        }
+
+
+    </script>
+</head>
+
+<body>
+    <h1>Safe Forum</h1>
+    <h2>Posts</h2>
+    <script>
+        document.write(escape(hack_string));
+    </script>
+</body>
+
+</html>
